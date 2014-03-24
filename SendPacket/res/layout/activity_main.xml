@@ -1,0 +1,107 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+    
+        <!-- 2 columns -->
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="20dip" >
+ 
+        <TextView
+            android:id="@+id/textView1"
+            android:text="Tamaño Payload:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+  		<TextView
+            android:id="@+id/textView1"
+            android:text="1000 bytes"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" /> 
+            
+  		</TableRow>
+ 
+    <!-- edittext span 2 column -->
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip" >
+ 
+        <TextView
+            android:id="@+id/textView2"
+            android:text="Frecuencia:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+  		<TextView
+            android:id="@+id/textView3"
+            android:text="4 seg."
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    </TableRow>
+ 
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="5dip"
+        android:background="#FF9900" 
+        android:layout_marginTop="170dp"
+       />
+ 
+
+ 
+    <!-- display this button in 3rd column via layout_column(zero based) -->
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:padding="5dip" >
+  		
+        <ToggleButton
+            android:id="@+id/toggleButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:onClick="onToggleClicked"
+            android:textOff="Encender"
+            android:textOn="Apagar" />
+        
+    </TableRow>
+    
+    
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="5dip" >
+        
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_span="3"
+            android:text="OMEGATEAM"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FF9900"
+            android:typeface="sans" />
+                
+    </TableRow>
+ 
+    <!-- display this button in 2nd column via layout_column(zero based) -->
+    
+            
+
+
+</TableLayout>
+
