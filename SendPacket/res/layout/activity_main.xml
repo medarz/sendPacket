@@ -20,18 +20,29 @@
         <TextView
             android:id="@+id/textView1"
             android:text="Tamaño Payload:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-  		<TextView
-            android:id="@+id/textView1"
-            android:text="1000 bytes"
-            android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" /> 
             
-  		</TableRow>
+  </TableRow>
  
     <!-- edittext span 2 column -->
-    <TableRow
+
+ <TableRow
         android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip" >
+        
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_span="3"
+        android:max="1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dip" >
@@ -47,16 +58,29 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     
     </TableRow>
+    
+     <TableRow
+        android:id="@+id/tableRow12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip" >
+        
+    <SeekBar
+        android:id="@+id/seekBar2"
+        android:layout_span="3"
+        android:max="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </TableRow>
  
     <!-- just draw a red line -->
     <View
         android:layout_height="5dip"
         android:background="#FF9900" 
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="50dp"
        />
- 
 
- 
     <!-- display this button in 3rd column via layout_column(zero based) -->
 
     <TableRow
@@ -99,9 +123,6 @@
     </TableRow>
  
     <!-- display this button in 2nd column via layout_column(zero based) -->
-    
-            
-
 
 </TableLayout>
 

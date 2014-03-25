@@ -11,6 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.app.Service;
@@ -29,7 +30,7 @@ public class TimerService extends Service {
 	public MqttClient client;
 
     // constant
-    public static final long NOTIFY_INTERVAL = 4 * 1000; // 10 seconds
+    public static final long NOTIFY_INTERVAL = 2 * 1000; // 10 seconds
  
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
@@ -47,14 +48,22 @@ public class TimerService extends Service {
     	Log.i("SendPacket","onCreate >>");
     	int i;
     	
-    	for(i=0; i<100; i++){
+    	for(i=0; i<12; i++){
     		text_mensaje = text_mensaje + "123456789|";
     	}
     }
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+ 
       Log.i("SendPacket", "onStartCommand() called");
+      
+      Bundle b=intent.getExtras();
+      int payld = b.getInt("Payload");
+      int waittime = b.getInt("Waittime");
+      
+      Log.d("SendPacket","Payload: " + payld);
+      Log.d("SendPacket","Waittime: " + waittime);
      	
       if(mTimer != null) {
           mTimer.cancel();
@@ -98,7 +107,7 @@ public class TimerService extends Service {
                     Toast.makeText(getApplicationContext(), getDateTime(),
                             Toast.LENGTH_SHORT).show();
 
-                    start(); 
+                    sendMessage(); 
                 }   
             });
         }
@@ -123,7 +132,7 @@ public class TimerService extends Service {
         }
 	}
 	
-	public void start() {
+	public void sendMessage() {
 	   
 	   try {
 	      Log.i("SendPacket","Conectando");
@@ -139,7 +148,7 @@ public class TimerService extends Service {
 	
 	   MqttTopic messageTopic = client.getTopic( text_topico );
 	   MqttMessage message = new MqttMessage(text_mensaje.getBytes());
-		messageTopic.publish(message);
+	   messageTopic.publish(message);
 		Log.i("SendPacket","Published data. Topic: " + messageTopic.getName() + "  Message: " + text_mensaje);
 	} 		
 }
