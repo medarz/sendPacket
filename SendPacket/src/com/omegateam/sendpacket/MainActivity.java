@@ -9,9 +9,14 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -49,8 +54,6 @@ public class MainActivity extends Activity {
 		}
        
        seek1 = (SeekBar) findViewById(R.id.seekBar1);  
-       seek1.incrementProgressBy(10);
-       
        seek2 = (SeekBar) findViewById(R.id.seekBar2);
        
        final TextView seekBarValueP = (TextView)findViewById(R.id.pay);
@@ -58,7 +61,19 @@ public class MainActivity extends Activity {
        seek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
            @Override
            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-               seekBarValueP.setText(String.valueOf(progress));
+               int tmpProgress;
+        	   tmpProgress = (progress)/5;
+        	   tmpProgress = (tmpProgress)*5;
+        	   if(progress<80)
+               {
+            	   seek1.setProgress(80);
+            	   seekBarValueP.setText(String.valueOf(tmpProgress+80));
+               }
+               else
+               {
+            	   seek1.setProgress(tmpProgress);
+            	   seekBarValueP.setText(String.valueOf(tmpProgress));
+               }
            }
            @Override
            public void onStartTrackingTouch(SeekBar seekBar){
@@ -73,7 +88,16 @@ public class MainActivity extends Activity {
        seek2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
            @Override
            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-               seekBarValue.setText(String.valueOf(progress));
+        	   if(progress<=1)
+               {
+            	   seek2.setProgress(1);
+            	   seekBarValue.setText(String.valueOf(1));
+               }
+               else
+               {
+            	   seek2.setProgress(progress);
+            	   seekBarValue.setText(String.valueOf(progress));
+               }
            }
            @Override
            public void onStartTrackingTouch(SeekBar seekBar){
@@ -130,25 +154,7 @@ public class MainActivity extends Activity {
         return false;    	
     }
     
-    private static int lookupHost(String hostname) {
-        InetAddress inetAddress;
-        try {
-            inetAddress = InetAddress.getByName(hostname);
-        } catch (UnknownHostException e) {
-            return -1;
-        }
-        byte[] addrBytes;
-        
-        
-        int addr;
-        addrBytes = inetAddress.getAddress();
-        addr = ((addrBytes[3] & 0xff) << 24)
-                | ((addrBytes[2] & 0xff) << 16)
-                | ((addrBytes[1] & 0xff) << 8 )
-                |  (addrBytes[0] & 0xff);
-        return addr;
-    }
-    
+   
     private boolean isNetworkAvailabe(){
     	
     	Log.d(TAG, "Verificando conectividad: ");
@@ -164,7 +170,7 @@ public class MainActivity extends Activity {
          else 
         	return false;
     	
-    }
+    }  
     
     public void onToggleClicked(View view) {
 
@@ -208,6 +214,49 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+    
+    public void about()
+    {
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+ 
+			// set title
+			alertDialogBuilder.setTitle("SendPacket");
+			
+			LayoutInflater factory = LayoutInflater.from(this);
+			final View view = factory.inflate(R.layout.alert, null);
+			alertDialogBuilder.setView(view);
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setCancelable(false)
+				.setIcon(R.drawable.ic_launcher)
+				.setNeutralButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// current activity
+						dialog.cancel();
+					}
+				  });
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                about();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
 }

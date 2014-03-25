@@ -14,10 +14,16 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 
 public class TimerService extends Service {
 	
@@ -25,6 +31,9 @@ public class TimerService extends Service {
 	
 	public String text_topico = "send/packet";
 	public String text_mensaje = "";
+	
+	private NotificationManager mNotificationManager;
+	private int notificationID = 100;
 	
 	public static final String BROKER_URL = "tcp://192.241.195.144:1883";
 	public MqttClient client;
@@ -62,7 +71,7 @@ public class TimerService extends Service {
       Log.d("SendPacket","Waittime: " + waittime);
       
       NOTIFY_INTERVAL = waittime * 1000;  
-      for(int i=0; i< payld/10; i++)
+      for(int i=0; i< (payld-80)/10; i++)
       {
   		text_mensaje = text_mensaje + "123456789|";
   	  }
@@ -73,6 +82,7 @@ public class TimerService extends Service {
           // recreate new
           mTimer = new Timer();
           connectMQTT();
+          doNotification();
       }
       // schedule task
       mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL);
@@ -84,6 +94,7 @@ public class TimerService extends Service {
     public void onDestroy() {
         Toast.makeText(this, "Deteniendo", Toast.LENGTH_SHORT).show();
         mTimer.cancel();
+        cancelNotification();
         
         try 
         {
@@ -153,4 +164,39 @@ public class TimerService extends Service {
 	   messageTopic.publish(message);
 		Log.i("SendPacket","Published data. Topic: " + messageTopic.getName() + "  Message: " + text_mensaje);
 	} 		
+	
+    public void doNotification(){
+    	
+    	// prepare intent which is triggered if the
+    	// notification is selected
+
+    	Intent intent = new Intent(this, MainActivity.class);
+    	
+    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+    	            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    	
+    	PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+    	// build notification
+    	// the addAction re-use the same intent to keep the example short
+    	Notification n  = new Notification.Builder(this)
+    	        .setContentTitle("Enviando tráfico.")
+    	        .setContentText("SendPacket")
+    	        .setSmallIcon(R.drawable.ic_launcher)
+    	        .setContentIntent(pIntent)
+    	        .setAutoCancel(false).build();
+    	    
+    	mNotificationManager = 
+    	  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    	
+    	n.flags |= Notification.FLAG_NO_CLEAR;
+
+    	mNotificationManager.notify(notificationID, n); 
+    	
+    }
+    
+    protected void cancelNotification() {
+        Log.i("Cancel", "notification");
+        mNotificationManager.cancel(notificationID);
+     }
 }
