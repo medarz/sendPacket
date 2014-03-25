@@ -29,8 +29,8 @@ public class TimerService extends Service {
 	public static final String BROKER_URL = "tcp://192.241.195.144:1883";
 	public MqttClient client;
 
-    // constant
-    public static final long NOTIFY_INTERVAL = 2 * 1000; // 10 seconds
+    
+    public long NOTIFY_INTERVAL; 
  
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
@@ -46,11 +46,7 @@ public class TimerService extends Service {
     public void onCreate() {
         // cancel if already existed  	
     	Log.i("SendPacket","onCreate >>");
-    	int i;
     	
-    	for(i=0; i<12; i++){
-    		text_mensaje = text_mensaje + "123456789|";
-    	}
     }
     
     @Override
@@ -64,6 +60,12 @@ public class TimerService extends Service {
       
       Log.d("SendPacket","Payload: " + payld);
       Log.d("SendPacket","Waittime: " + waittime);
+      
+      NOTIFY_INTERVAL = waittime * 1000;  
+      for(int i=0; i< payld/10; i++)
+      {
+  		text_mensaje = text_mensaje + "123456789|";
+  	  }
      	
       if(mTimer != null) {
           mTimer.cancel();
