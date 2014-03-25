@@ -14,9 +14,9 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.util.Log;
 
 public class MainActivity extends Activity {
@@ -48,8 +48,40 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
        
-       seek1 = (SeekBar) findViewById(R.id.seekBar1);     
+       seek1 = (SeekBar) findViewById(R.id.seekBar1);  
+       seek1.incrementProgressBy(10);
+       
        seek2 = (SeekBar) findViewById(R.id.seekBar2);
+       
+       final TextView seekBarValueP = (TextView)findViewById(R.id.pay);
+
+       seek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+           @Override
+           public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+               seekBarValueP.setText(String.valueOf(progress));
+           }
+           @Override
+           public void onStartTrackingTouch(SeekBar seekBar){
+           }
+           @Override
+           public void onStopTrackingTouch(SeekBar seekBar){
+           }
+       });
+       
+       final TextView seekBarValue = (TextView)findViewById(R.id.frec);
+
+       seek2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+           @Override
+           public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+               seekBarValue.setText(String.valueOf(progress));
+           }
+           @Override
+           public void onStartTrackingTouch(SeekBar seekBar){
+           }
+           @Override
+           public void onStopTrackingTouch(SeekBar seekBar){
+           }
+       });
         
     }
     

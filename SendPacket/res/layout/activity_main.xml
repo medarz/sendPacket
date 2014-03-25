@@ -1,128 +1,254 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="left"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background_color"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
     
-        <!-- 2 columns -->
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/refresh_match_layout"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="20dip" >
- 
-        <TextView
-            android:id="@+id/textView1"
-            android:text="Tamaño Payload:"
-            android:textAppearance="?android:attr/textAppearanceMedium" /> 
+        android:layout_margin="5dp"
+        android:background="@drawable/background_view_rounded_single"
+        android:orientation="vertical"
+        android:visibility="visible" >
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="12" >
             
-  </TableRow>
- 
-    <!-- edittext span 2 column -->
-
- <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dip" >
-        
-    <SeekBar
-        android:id="@+id/seekBar1"
-        android:layout_span="3"
-        android:max="1000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/tableRow22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dip" >
- 
-        <TextView
-            android:id="@+id/textView2"
-            android:text="Frecuencia:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-  		<TextView
-            android:id="@+id/textView3"
-            android:text="4 seg."
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    
-    </TableRow>
-    
-     <TableRow
-        android:id="@+id/tableRow12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dip" >
-        
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_span="3"
-        android:max="10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    </TableRow>
- 
-    <!-- just draw a red line -->
-    <View
-        android:layout_height="5dip"
-        android:background="#FF9900" 
-        android:layout_marginTop="50dp"
-       />
-
-    <!-- display this button in 3rd column via layout_column(zero based) -->
-
-    <TableRow
-        android:id="@+id/tableRow4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:padding="5dip" >
-  		
-        <ToggleButton
-            android:id="@+id/toggleButton1"
+            <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="2"
-            android:onClick="onToggleClicked"
-            android:textOff="Encender"
-            android:textOn="Apagar" />
-        
-    </TableRow>
-    
-    
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="5dip" >
-        
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal"
-            android:layout_span="3"
-            android:text="OMEGATEAM"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FF9900"
-            android:typeface="sans" />
-                
-    </TableRow>
- 
-    <!-- display this button in 2nd column via layout_column(zero based) -->
+            android:padding="10dp"
+            android:text="Tamaño Payload:"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+            
+           <TextView
+               android:id="@+id/pay"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:text="180"
+               android:textAppearance="?android:attr/textAppearanceMedium"
+               android:textColor="@color/white" />
+         </LinearLayout>
 
-</TableLayout>
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="1000"
+            android:progress="180"
+            android:progressDrawable="@drawable/progressbar"
+            android:secondaryProgress="0" />
+ 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="12" >
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="200"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="400"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="600"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="800"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="1000"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+ 
+   <LinearLayout
+       android:id="@+id/refresh_match_layout2"
+       android:layout_width="268dp"
+       android:layout_height="wrap_content"
+       android:layout_margin="5dp"
+       android:background="@drawable/background_view_rounded_single"
+       android:orientation="vertical"
+       android:visibility="visible" >
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="12" >
+            
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Tiempo Espera:"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+            
+           <TextView
+               android:id="@+id/frec"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:text="4"
+               android:textAppearance="?android:attr/textAppearanceMedium"
+               android:textColor="@color/white" />
+         </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="10"
+            android:progress="4"
+            android:progressDrawable="@drawable/progressbar"
+            android:secondaryProgress="0" />
+ 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="12" >
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="2"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="4"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="6"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="8"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:text="10"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+ 
+    <!-- just draw a red line -->
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <ToggleButton
+            android:id="@+id/toggleButton1"
+            style="@style/ButtonText"
+            android:layout_width="252dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_red"
+            android:onClick="onToggleClicked"
+            android:textColor="#FFF"
+            android:textOff="Activar"
+            android:textOn="Finalizar" />
+    </LinearLayout>
+
+</LinearLayout>
 
