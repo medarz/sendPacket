@@ -106,8 +106,8 @@ public class TimerService extends Service {
                 @Override
                 public void run() {
                     // display toast
-                    Toast.makeText(getApplicationContext(), getDateTime(),
-                            Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), getDateTime(),
+                      //      Toast.LENGTH_SHORT).show();
 
                     sendMessage(); 
                 }   
