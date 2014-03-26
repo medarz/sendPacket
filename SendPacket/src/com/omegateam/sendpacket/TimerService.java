@@ -18,7 +18,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 import android.app.Notification;
@@ -29,8 +31,10 @@ public class TimerService extends Service {
 	
 	/*********************************  App Parameters ***********************************/
 	
-	public String text_topico = "send/packet";
+	public String text_topico = "";
 	public String text_mensaje = "";
+	
+	public String IMSI;
 	
 	private NotificationManager mNotificationManager;
 	private int notificationID = 100;
@@ -55,6 +59,12 @@ public class TimerService extends Service {
     public void onCreate() {
         // cancel if already existed  	
     	Log.i("SendPacket","onCreate >>");
+    	
+    	TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+    	IMSI = mTelephonyMgr.getSubscriberId();
+    	text_topico = "send/" + IMSI.substring(9);
+    	
+    	Log.d("SendPacket","Topic: " + text_topico);
     	
     }
     
@@ -92,21 +102,24 @@ public class TimerService extends Service {
     }
     
     public void onDestroy() {
-        Toast.makeText(this, "Deteniendo", Toast.LENGTH_SHORT).show();
+    	
         mTimer.cancel();
         cancelNotification();
         
-        try 
+        if(client.isConnected())
         {
-  		  client.disconnect();
-  		  Log.i("SendPacket","Desconectando del servidor..."); 
-  	    }catch (MqttException e) {
-  	       e.printStackTrace();
-  	       System.exit(1);
-  	    }
+	        try 
+	        {
+	          Toast.makeText(this, "Deteniendo", Toast.LENGTH_SHORT).show();
+	  		  client.disconnect();
+	  		  Log.i("SendPacket","Desconectando del servidor..."); 
+	  	    }catch (MqttException e) {
+	  	       e.printStackTrace();
+	  	       System.exit(1);
+	  	    }
+        }
    }
-    
- 
+   
     class TimeDisplayTimerTask extends TimerTask {
  
         @Override
@@ -135,34 +148,52 @@ public class TimerService extends Service {
     public void connectMQTT() {
 	   	
    	 try {
-   	    Toast.makeText(this, "Conectando",Toast.LENGTH_LONG).show();
+   	    Toast.makeText(this, "Conectado",Toast.LENGTH_LONG).show();
             client = new MqttClient(BROKER_URL, MqttClient.generateClientId(), new MemoryPersistence());
             client.connect();
+            
             Log.i("SendPacket","Conectado al servidor: " + BROKER_URL);
         } catch (MqttException e) {
+        	Toast.makeText(this, "No se pudo conectar.",Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            System.exit(1);
+
         }
 	}
 	
 	public void sendMessage() {
 	   
 	   try {
-	      Log.i("SendPacket","Conectando");
 	      publishMessage();
 	     //  client.disconnect();
-	   } catch (MqttException e) {
-	       e.printStackTrace();
-	       System.exit(1);
 	   }
+	   catch (MqttException e) {
+		   if(e.getReasonCode()== MqttException.REASON_CODE_CONNECTION_LOST)
+		   {
+			   Log.e("SendPacket","Se perdio la conexion");
+			   onDestroy();
+		   }
+		   else
+		   {
+		       e.printStackTrace();
+		       System.exit(1);
+		   }
+	   } 
 	}
 	
 	public void publishMessage() throws MqttException {
 	
-	   MqttTopic messageTopic = client.getTopic( text_topico );
-	   MqttMessage message = new MqttMessage(text_mensaje.getBytes());
-	   messageTopic.publish(message);
-		Log.i("SendPacket","Published data. Topic: " + messageTopic.getName() + "  Message: " + text_mensaje);
+	   if( client.isConnected() ){
+		   MqttTopic messageTopic = client.getTopic( text_topico );
+		   MqttMessage message = new MqttMessage(text_mensaje.getBytes());
+		   messageTopic.publish(message);
+			Log.i("SendPacket","Published data. Topic: " + messageTopic.getName() + "  Message: " + text_mensaje);   
+	   }
+	   else
+	   {
+		   Toast.makeText(this, "Se perdio la conexion. Deteniendo..", Toast.LENGTH_SHORT).show();
+		   onDestroy();
+	   }
+	  
 	} 		
 	
     public void doNotification(){

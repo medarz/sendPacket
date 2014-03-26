@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Tamaño Payload:"
+            android:text="Tamaño Paquetes:"
             android:textColor="#ffffff"
             android:textSize="20sp" />
             
@@ -138,18 +138,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Tiempo Espera:"
+            android:text="Tiempo de Espera:"
             android:textColor="#ffffff"
             android:textSize="20sp" />
-            
-           <TextView
-               android:id="@+id/frec"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="10dp"
-               android:text="4"
-               android:textAppearance="?android:attr/textAppearanceMedium"
-               android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/frec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="4"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white" />
+
          </LinearLayout>
 
         <SeekBar
