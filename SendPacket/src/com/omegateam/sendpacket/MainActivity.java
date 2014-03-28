@@ -1,16 +1,14 @@
 package com.omegateam.sendpacket;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -160,16 +158,52 @@ public class MainActivity extends Activity {
     	Log.d(TAG, "Verificando conectividad: ");
     	Context context = getApplicationContext();
     	ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-         
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();        
+                 
          if(netInfo != null && netInfo.isConnected())
          {
-        	return true;
+             switch(netInfo.getType())
+             {
+             	case ConnectivityManager.TYPE_WIFI :   	 
+                	
+         		AlertDialog.Builder alertDialogBuilder_net = new AlertDialog.Builder(MainActivity.this);
+         		alertDialogBuilder_net
+ 					.setCancelable(false)
+ 					.setIcon(R.drawable.ic_launcher)
+ 					.setMessage("Es necesario desactivar WiFi para enviar los paquetes")
+ 					.setPositiveButton("Desactivar",new DialogInterface.OnClickListener() {
+ 						public void onClick(DialogInterface dialog,int id) {
+
+ 							WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+ 							wifiManager.setWifiEnabled(false);
+ 							
+ 							dialog.cancel();
+ 						}
+ 					})
+ 					.setNegativeButton("Cancelar",new DialogInterface.OnClickListener() {
+ 						public void onClick(DialogInterface dialog,int id) {
+ 							// if this button is clicked, close
+ 							// current activity
+ 							dialog.cancel();
+ 						}
+         		});
+         		AlertDialog alertDialog_net = alertDialogBuilder_net.create();
+				alertDialog_net.show();
+			
+         		return false;
+            
+             	case ConnectivityManager.TYPE_MOBILE:
+             		return true;
+             		
+             	case ConnectivityManager.TYPE_MOBILE_MMS:
+             		return true;
+      	         	
+             }
          }
-         else 
-        	return false;
-    	
+         
+        Toast.makeText(this, "No hay red disponible", Toast.LENGTH_SHORT).show();
+		return false;
+        
     }  
     
     public void onToggleClicked(View view) {
@@ -198,7 +232,6 @@ public class MainActivity extends Activity {
         	}
         	else
             {
-	         	Toast.makeText(this, "No hay red disponible", Toast.LENGTH_SHORT).show();
 	         	toggleB.toggle();
             }        	
         } else 
@@ -223,7 +256,6 @@ public class MainActivity extends Activity {
  
 			// set title
 			alertDialogBuilder.setTitle("SendPacket");
-			
 			LayoutInflater factory = LayoutInflater.from(this);
 			final View view = factory.inflate(R.layout.alert, null);
 			alertDialogBuilder.setView(view);
