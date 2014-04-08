@@ -8,6 +8,7 @@ import android.net.NetworkInfo.State;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
 	private String TAG = "SendPacket";
 	private SeekBar seek1;
 	private SeekBar seek2;
+	public static final String SERVICE_CLASSNAME = "com.omegateam.sendpacket.SubscriberService";
 	
 	boolean withMMS = false;
     @Override
@@ -152,7 +154,11 @@ public class MainActivity extends Activity {
         return false;    	
     }
     
-   
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+    
     private boolean isNetworkAvailabe(){
     	
     	Log.d(TAG, "Verificando conectividad: ");
@@ -279,6 +285,37 @@ public class MainActivity extends Activity {
 				alertDialog.show();
     }
     
+    public void onToggleReceive(View view){
+
+        ToggleButton toggleB2 = ((ToggleButton) view);
+        Intent intent = new Intent(this, SubscriberService.class);
+        
+        if (toggleB2.isChecked()) {
+        	if(isNetworkAvailabe())
+        	{
+        		this.startService(intent);
+        	}
+        	else
+            {
+	         	toggleB2.toggle();
+            }        	
+        } else 
+        {
+        	this.stopService(intent);
+        }      
+    	
+    }
+        
+    private boolean serviceIsRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (SERVICE_CLASSNAME.equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -290,5 +327,6 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    
     
 }

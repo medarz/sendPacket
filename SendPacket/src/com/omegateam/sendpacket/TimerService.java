@@ -188,7 +188,7 @@ public class TimerService extends Service {
 		   messageTopic.publish(message);
 			Log.i("SendPacket","Published data. Topic: " + messageTopic.getName() + "  Message: " + text_mensaje);   
 	   }
-	   else
+	  else
 	   {
 		   Toast.makeText(this, "Se perdio la conexion. Deteniendo..", Toast.LENGTH_SHORT).show();
 		   onDestroy();

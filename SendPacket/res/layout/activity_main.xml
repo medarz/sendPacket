@@ -232,24 +232,44 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible" >
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/ToggleButton01"
             style="@style/ButtonText"
-            android:layout_width="252dp"
-            android:layout_height="66dp"
+            android:layout_height="50dp"
+            android:layout_width="270dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_red"
             android:onClick="onToggleClicked"
             android:textColor="#FFF"
-            android:textOff="Activar"
+            android:textOff="Enviar"
             android:textOn="Finalizar" />
+      </LinearLayout>
+      
+      <LinearLayout
+       android:id="@+id/refresh_match_layout3"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="5dp"
+       android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
 
+        <ToggleButton
+            android:id="@+id/toggleButton2"
+            style="@style/ButtonText"
+            android:layout_height="50dp"
+            android:layout_width="270dp"
+            android:background="@drawable/btn_red"
+            android:textColor="#FFF"
+            android:onClick="onToggleReceive"
+            android:textOff="Recibir"
+            android:textOn="Finalizar" />
+        
     </LinearLayout>
 
 </LinearLayout>
